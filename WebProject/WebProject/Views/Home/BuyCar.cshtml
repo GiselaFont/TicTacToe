@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using WebProject.Models
+@model BuyCarViewModel
+
+<div class="showall">
+    <form method="post" action="~/Home/BuyCar">
+        <label for="sort">Sort by</label>
+        <select name="sort" id="sort">
+            <option value="lprice">Lowest Price</option>
+            <option value="hprice">Highest Price</option>
+            <option value="oldest">Oldest</option>
+            <option value="newest">Newest</option>
+            <option value="az">Model: A to Z</option>
+            <option value="za">Model: Z to A</option>
+        </select>
+        <button type="submit">Show All</button>
+    </form>
+</div>
+@foreach (var car in Model.BuyCars)
+{
+    <div class="experience">
+            <div class="title"><h4>@car.Make - @car.Model</h4></div>
+            @{var path1 = "../Images/" + car.Make + "1.jpg";
+                var path2 = "../Images/" + car.Make + "2.jpg";}
+            <img width="200" src=@path1 /><img width="200" src=@path2 />
+            @if (!String.IsNullOrWhiteSpace(car.Type))
+            {
+                <div> Type: @car.Type <br /></div>
+            }
+            Color: @car.Color <br />
+            Year: @car.Year <br />
+            Transmission: @car.Transmission <br />
+            Milage: @car.Milage <br />
+            Price: @car.Price <br /><br />
+            <div class="description" style="display:none;">@car.description </div>
+            <br />
+        <form method="post" action="~/Home/Contact">
+            <button id="likebutton">I like this car!</button>
+        </form>
+
+    </div>
+}
+
+

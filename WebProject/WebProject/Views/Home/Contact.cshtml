@@ -1,0 +1,51 @@
+﻿@using WebProject.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="contactpost">
+</div>
+<form  method="post" action="~/Home/Contact" class="form">
+    <label for="contact_name">Name</label>
+    <input type="text" name="contact_name" id="contact_name" maxlength="50" required />
+
+    <label for="contact_email">Email Address</label>
+    <input type="email" name="contact_email" id="contact_dmail" maxlength="50" required />
+
+    <label for="contact_phone">Phone Number</label>
+    <input type="tel" name="contact_phone" id="contact_phone" maxlength="50" />
+
+    <label for="contact_car">Car</label>
+    <input type="text" name="contact_car" id="contact_car" maxlength="50" />
+
+    <label for="contact_purpose">Puprose</label>
+    <select name="contact_purpose" id="contact_purpose">
+        <option value="">Please select a purpose</option>
+        <option value="buy">Interested in this Car</option>
+        <option value="problems">Problems with my car</option>
+        <option value="question">General Question</option>
+        <option value="message">Personal Message</option>
+    </select>
+
+    <label for="contact_message">Message</label>
+    <textarea name="contact_message" id="contact_message" required></textarea>
+
+    <input type="submit" name="submit" value="submit" id="submit"/>
+</form>
+
+@section Scripts{
+    <script>
+
+        $("#submit").click(function () {
+            //var formData = $("#contactpost").text($('.form').serialize());
+                   $.post('/Home/Contact', formData, function (data, status, x) {
+                       $('#contactpost').append(data);
+                      // var formData = $("#contactpost").text($('#contact_name').val());
+                      // $(".form").hide();
+                   });
+                   
+        });
+    </script>
+
+}

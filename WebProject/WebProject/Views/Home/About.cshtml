@@ -1,0 +1,90 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="about">
+    <h4>English</h4>
+    <p>
+        Genis Font was born in 2011 as a company, after a wide experience of 20 years in the automobile field,
+        I am currently working on the online car sales, giving advice to my customers to make sure they get the best car that fits them,
+        and treating them well.
+    </p>
+    <a href="#hidden1" id="toggle1">Show more</a>
+    <div id="hidden1" style="display:none;">
+        <p>
+            I have always been interested in the automobile field, I am really passionate about my job. I studied car services for a few years and I have a title in car services,
+            I have a wide knowledge of the vehicle state.
+        </p>
+        <p>
+            My office is located in La Llagosta, which is 10Km away from Barcelona, it is really easy to access it by either public transportation or private.
+            I guarantee all of the cars I have on sale have been repaired and they are in great condition.
+        </p>
+        <p>
+            I am happy to help you out to find the best car that fits you, providing you the best price and quality.
+            Also, I can also offer the service of "financiacio, gestoria, assegurances i accessoris". I also offer the option to trade in your vehicle.
+        </p>
+    </div>
+    <h4>Spanish</h4>
+    <p>
+        Genis Font nace como empresa en el 2011, despues de una amplia experiencia en el sector del automobil de 20 anos,
+        me dedico actualmente a la compra-venta de vehiculos por internet, assessoro a los clientes para la mejor compra de su vehiculo,
+        ofreciendo el mejor trato posible.
+    </p>
+    <a href="#hidden2" id="toggle2">Show more</a>
+    <div id="hidden2" style="display:none;">
+        <p>
+            El mundo del automobil siempre ha sido mi pasion, he realitzado estudios de mecanica consiguiendo el titulo de "cap de taller",
+            con un amplio conocimiento sobre el estado de los vehiculos.
+        </p>
+        <p>
+            Estoy ubicado en la poblacion de La Llagosta a 10km de Barcelona, es de muy facil acceso con transport publico o privado.
+            Garantizo que todos los coches que estan a la venta estan revisados y en perfecto estado.
+        </p>
+        <p>
+            Mi ilusion es satisfacer al cliente ofreciendole la maxima calidad de precio con tota confianza.
+            Tambien puedo ofrecer los servicios de financiacion, gestoria, aseguranzas i accessorios. Accepto Vehiculos a cambio.
+        </p>
+    </div>
+
+    <h4>Catalan</h4>
+    <p>
+        Genis Font com a empresa neix al 2011 despres d'una amplia experiencia en el sector the l'automocio de 20 anys,
+        dedicant-me actualment a la compra-venda de vehicles per internet, assessorant als clients per la millor compra del seu vehicle,
+        oferint-li el millor tracte.
+    </p>
+    <a href="#hidden3" id="toggle3">Show more</a>
+    <div id="hidden3" style="display:none;">
+        <p>
+            El ram de l'automocio sempre ha estat el que mes m'ha agradat, havent realitzat estudis de mecanica obtenint el titul de cap de taller,
+            amb molts coneixements de l'estat dels vehicles.
+        </p>
+        <p>
+            Estic ubicat a la poblacio de La Llagosta a 10km de Barcelona, amb molt facil acces tan amb transport public com privat.
+            Tots els cotxes estan garantitzats havent-los revisat i posats a la venta en perfecte estat.
+        </p>
+        <p>
+            La meva ilusio es satisfer al client oferint-li la maxima qualitat-preu amb tota confianca.
+            Tambe puc oferir els serveis de financiacio, gestoria, assegurances i accessoris. Accepto Vehicle a canvi.
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        $('#toggle1').click(function () {
+            $('#hidden1').toggle();
+            $('#toggle1').hide();
+        });
+
+        $('#toggle2').click(function () {
+            $('#hidden2').toggle();
+            $('#toggle2').hide();
+        });
+
+        $('#toggle3').click(function () {
+            $('#hidden3').toggle();
+            $('#toggle3').hide();
+        });
+
+    </script>
+}

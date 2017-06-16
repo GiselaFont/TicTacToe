@@ -1,0 +1,32 @@
+﻿@using WebProject.Models;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post" action="~/Home/SellCar" class="form-horizontal">
+    <label for="contact_name">Name</label>
+    <input type="text" name="contact_name" id="contact_name" maxlength="50" required />
+
+    <label for="contact_email">Email Address</label>
+    <input type="email" name="contact_email" id="contact_email" maxlength="50" required />
+
+    <label for="contact_phone">Phone Number</label>
+    <input type="tel" name="contact_phone" id="contact_phone" maxlength="50" />
+    <p><b>Select one of the following:</b></p>
+    
+    <label for="sell">Sell</label>
+    <input type="radio" name="sell" id="sell" />
+    <br />
+    <label for="tradein">Trade in</label>
+    <input type="radio" name="tradein" id="tradein" />
+    
+    <br /><br />
+    <label for="images">Please attach images</label>
+    <button>Attach</button> <br /> <br />
+
+    <label for="car_description">Car description</label>
+    <textarea name="car_description" id="car_description" required></textarea>
+
+    <input type="submit" />
+</form>

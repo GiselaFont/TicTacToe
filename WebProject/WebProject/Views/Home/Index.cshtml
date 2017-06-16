@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using WebProject.Models
+@model BuyCarViewModel
+
+@*
+    @section Scripts {
+        <script>
+            function append() {
+                $.get('Home/TestAjax', null, function(data, status, xr) {
+                $('#picture').append(data);
+            });
+               /* $.get('Home/TesAjax', null, function (data, status, xr) {
+                    alert(data);
+                    alert(status);
+                    alert(xr);
+                });*/
+               // $('#picture').append('<h1>HELLO</h1>');
+            }
+            $('#submitb').click(append);
+        </script>
+    }
+*@
+
+<div class="picture">
+    <img src="~/Images/usedcars.png" alt="portrait" width="250" style="height:auto;">
+    <p> Are you looking for great deals in used cars? Then, you are on the right place. Start by searching for the car you are looking for to see if it is available in our store.</p>
+        <div class="selectform">
+            @Html.ValidationSummary()
+                <form method="post" action="~/Home/BuyCar">
+                    <label for="all_makes">Select Make</label>
+                    <select name="all_makes" id="all_makes">
+                        <option value="makes">All Makes</option>
+                        @foreach (var c in Model.BuyCars)
+                        {
+                             <option value="@c.Make">@c.Make</option>
+                        }
+                    </select>
+                    <label for="all_models">Select Model</label>
+                    <select name="all_models" id="all_models">
+                        <option value="models">All Models</option>
+                        @foreach (var c in Model.BuyCars)
+                        {
+                            <option value="@c.Model">@c.Model</option>
+                        }
+                    </select>
+                    <label for="price">Select Price</label>
+                    <select name="price" id="price">
+                        <option value=0>No Max Price</option>
+                        <option value=5>5000</option>
+                        <option value=10>10000</option>
+                        <option value=15>15000</option>
+                        <option value=20>20000</option>
+                    </select>
+                    <label for="transmission">Select Transmission</label>
+                    <select name="transmission" id="transmission">
+                        <option value="manual_automatic">Manual and Automatic</option>
+                        <option value="Manual">Manual</option>
+                        <option value="Automatic">Automatic</option>
+                    </select>
+                    <div class="submitb"><input type="submit" /></div>
+                </form>
+            
+           
+        </div>
+    
+</div>
+
