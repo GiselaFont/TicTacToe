@@ -10,33 +10,59 @@
     <button id="toggle1">New Game</button>
     <br />
     <br />
-    <form method="post" action="~/Home/Play">
-        <div id="hidden1" style="display:none;">
-            @foreach (var tables in Model.Table)
+    <div id="hidden1" style="display:none;">
+        @foreach (var tables in Model.Table)
+        {
+            <table border="1" height="100" width="100">
+                <tr>
+                    <td id="cell11">@tables.cell11</td>
+                    <td id="cell12">@tables.cell12</td>
+                    <td id="cell13">@tables.cell13</td>
+                </tr>
+                <tr>
+                    <td id="cell21">@tables.cell21</td>
+                    <td id="cell22">@tables.cell22</td>
+                    <td id="cell23">@tables.cell23</td>
+                </tr>
+                <tr>
+                    <td id="cell31">@tables.cell31</td>
+                    <td id="cell32">@tables.cell32</td>
+                    <td id="cell33">@tables.cell33</td>
+                </tr>
+            </table>
+        }
+    </div> 
+    <div id="hidden2" style="display:none;">
+        <table border="1" height="100" width="100">
+                <tr>
+                    <td id="cell11"></td>
+                    <td id="cell12"></td>
+                    <td id="cell13"></td>
+                </tr>
+                <tr>
+                    <td id="cell21"></td>
+                    <td id="cell22"></td>
+                    <td id="cell23"></td>
+                </tr>
+                <tr>
+                    <td id="cell31"></td>
+                    <td id="cell32"></td>
+                    <td id="cell33"></td>
+                </tr>
+            </table>
+        
+    </div>
+    <button id="save">Save</button>
+    
+    <div id="savedGames">
+        @foreach (var tables in Model.Table)
+        {
+            if (tables.Id != 0)
             {
-
-                <table border="1" height="100" width="100">
-                    <tr>
-                        <td id="cell11">@tables.cell11</td>
-                        <td id="cell12">@tables.cell12</td>
-                        <td id="cell13">@tables.cell13</td>
-                    </tr>
-                    <tr>
-                        <td id="cell21">@tables.cell21</td>
-                        <td id="cell22">@tables.cell22</td>
-                        <td id="cell23">@tables.cell23</td>
-                    </tr>
-                    <tr>
-                        <td id="cell31">@tables.cell31</td>
-                        <td id="cell32">@tables.cell32</td>
-                        <td id="cell33">@tables.cell33</td>
-                    </tr>
-                </table>
-
+                <button id="@tables.Id">Game @tables.Id</button>
             }
-            <button id="Save">Save</button>
-        </div>
-    </form>
+        }
+    </div>
 </div>
 
 @section Scripts {
@@ -46,7 +72,8 @@
 
             var x = false;
             $('#toggle1').click(function () {
-                $('#hidden1').toggle();
+                $('#hidden1').show();
+                $('#hidden2').hide();
             });
 
             $('td').click(function () {
@@ -74,12 +101,26 @@
                 };
 
                 $.post('/Home/Play', { table: cellValues }, function (response) {
-                    alert(response);
                 });
+
+                /*for(var i = 0; i < 4; i++)
+                {
+                    for (var j = 0; j < 4; j++) {
+                        if($("#cell" + i + "" + j).html == $("#cell" + i + "" + j).html)
+                    }
+                }*/
+
+            });
+
+            $("#save").click(function () {
+                $('#hidden1').hide();
+                $('#hidden2').show();
 
             });
 
         });
+
+        
         
     </script>
 }
