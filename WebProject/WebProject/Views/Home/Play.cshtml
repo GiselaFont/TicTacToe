@@ -10,51 +10,33 @@
     <button id="toggle1">New Game</button>
     <br />
     <br />
-    <div id="hidden1" style="display:none;">
-        @foreach (var tables in Model.Table)
-        {
+    <form method="post" action="~/Home/Play">
+        <div id="hidden1" style="display:none;">
+            @foreach (var tables in Model.Table)
+            {
 
-            <table border="1" height="100" width="100">
-                <tr>
-                    <td id="cell11">@tables.cell11</td>
-                    <td>@tables.cell12</td>
-                    <td>@tables.cell13</td>
-                </tr>
-                <tr>
-                    <td>@tables.cell21</td>
-                    <td>@tables.cell22</td>
-                    <td>@tables.cell23</td>
-                </tr>
-                <tr>
-                    <td>@tables.cell31</td>
-                    <td>@tables.cell32</td>
-                    <td>@tables.cell33</td>
-                </tr>
-            </table>
+                <table border="1" height="100" width="100">
+                    <tr>
+                        <td id="cell11">@tables.cell11</td>
+                        <td>@tables.cell12</td>
+                        <td>@tables.cell13</td>
+                    </tr>
+                    <tr>
+                        <td>@tables.cell21</td>
+                        <td>@tables.cell22</td>
+                        <td>@tables.cell23</td>
+                    </tr>
+                    <tr>
+                        <td>@tables.cell31</td>
+                        <td>@tables.cell32</td>
+                        <td>@tables.cell33</td>
+                    </tr>
+                </table>
 
-        }
-    </div>
-
-    <div id="hidden2" style="display:none;">
-
-            <table border="1" height="100" width="100">
-                <tr>
-                    <td id="cell11"></td>
-                    <td id="cell12"></td>
-                    <td id="cell13"></td>
-                </tr>
-                <tr>
-                    <td id="cell21"></td>
-                    <td id="cell22"></td>
-                    <td id="cell23"></td>
-                </tr>
-                <tr>
-                    <td id="cell31"></td>
-                    <td id="cell32"></td>
-                    <td id="cell33"></td>
-                </tr>
-            </table>
-    </div>
+            }
+            <input type="submit" />
+        </div>
+    </form>
 </div>
 
 @section Scripts {
@@ -62,18 +44,9 @@
 
         $(document).ready(function () {
 
-            /*for (var i = 1; i < 4; i++) {
-                for (var j = 1; j < 4; j++) {
-                    alert(i + " " + j);
-                    document.getElementById('cell"' + i + "" + j).innerHTML = localStorage.getItem('cell"' + i + "" + j);
-                }
-            }*/
-
-            //document.getElementById('cell22').innerHTML = localStorage.getItem('cell22');
-
             var x = false;
             $('#toggle1').click(function () {
-                $('#hidden2').toggle();
+                $('#hidden1').toggle();
             });
 
             $('td').click(function () {
@@ -91,20 +64,6 @@
             });
 
         });
-
-       /* window.onbeforeunload = function (event) {
-            localStorage.setItem("cell11", $("#cell11").html(),
-                "cell12", $("#cell12").html(),
-                "cell13", $("#cell13").html(),
-                "cell21", $("#cell21").html(),
-                "cell22", $("#cell22").html(),
-                "cell23", $("#cell23").html(),
-                "cell31", $("#cell31").html(),
-                "cell32", $("#cell32").html(),
-                "cell33", $("#cell33").html());
-
-            alert($("#cell12").html());
-        };*/
         
     </script>
 }

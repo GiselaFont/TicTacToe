@@ -378,17 +378,51 @@ namespace WebProject.Controllers
             return View();
         }
 
-        public ActionResult Play(TicTacToeViewModel m)
+        [HttpGet]
+        public ActionResult Play()
         {
-            var vm = new TicTacToeViewModel();
+            var vmTable = new TicTacToeViewModel();
 
             using (DataModel dm = new DataModel())
             {
-                foreach (var i in dm.Tables)
+                Tables table = (Tables)dm.Tables.FirstOrDefault();
+
+                //Check if there were values in the db
+                if(table == null)
                 {
-                    vm.Table.Add(i);
+                    table = new Tables();
+                    table.cell11 = "";
+                    table.cell12 = "";
+                    table.cell13 = "";
+                    table.cell21 = "";
+                    table.cell22 = "";
+                    table.cell23 = "";
+                    table.cell31 = "";
+                    table.cell32 = "";
+                    table.cell33 = "";
+                    dm.Tables.Add(table);
+                    vmTable.Table.Add(table);
+
                 }
 
+            }
+            return View(vmTable);
+        }
+
+
+        [HttpPost]
+        public ActionResult Play(TicTacToeViewModel m)
+        {
+            var vm = new TicTacToeViewModel();
+            if(String.IsNullOrWhiteSpace(vm.cell11))
+            {
+                using (DataModel dm = new DataModel())
+                {
+                    foreach (var i in dm.Tables)
+                    {
+                        vm.Table.Add(i);
+                    }
+                }
             }
             return View(m);
         }

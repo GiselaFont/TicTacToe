@@ -10,23 +10,23 @@ namespace WebProject.Data
     {
         [Key]
         public int Id { get; set; }
-        public String cell11 { get; set; }
+        public string cell11 { get; set; }
 
-        public String cell12 { get; set; }
+        public string cell12 { get; set; }
 
-        public String cell13 { get; set; }
+        public string cell13 { get; set; }
 
-        public String cell21 { get; set; }
+        public string cell21 { get; set; }
 
-        public String cell22 { get; set; }
+        public string cell22 { get; set; }
 
-        public String cell23 { get; set; }
+        public string cell23 { get; set; }
 
-        public String cell31 { get; set; }
+        public string cell31 { get; set; }
 
-        public String cell32 { get; set; }
+        public string cell32 { get; set; }
 
-        public String cell33 { get; set; }
+        public string cell33 { get; set; }
 
         public Tables()
         {
