@@ -411,9 +411,9 @@ namespace WebProject.Controllers
 
 
         [HttpPost]
-        public ActionResult Play(TicTacToeViewModel m)
+        public ActionResult Play(Tables table)
         {
-            var vm = new TicTacToeViewModel();
+            /*var vm = new TicTacToeViewModel();
             if(String.IsNullOrWhiteSpace(vm.cell11))
             {
                 using (DataModel dm = new DataModel())
@@ -424,7 +424,8 @@ namespace WebProject.Controllers
                     }
                 }
             }
-            return View(m);
+            return View(m);*/
+            return Json("Success");
         }
 
 
