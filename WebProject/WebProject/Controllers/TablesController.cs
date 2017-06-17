@@ -46,7 +46,7 @@ namespace WebProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,cell11")] Tables tables)
+        public ActionResult Create([Bind(Include = "Id,cell11,cell12,cell13,cell21,cell22,cell23,cell31,cell32,cell33")] Tables tables)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace WebProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,cell11")] Tables tables)
+        public ActionResult Edit([Bind(Include = "Id,cell11,cell12,cell13,cell21,cell22,cell23,cell31,cell32,cell33")] Tables tables)
         {
             if (ModelState.IsValid)
             {

@@ -388,7 +388,7 @@ namespace WebProject.Controllers
                 Tables table = (Tables)dm.Tables.FirstOrDefault();
 
                 //Check if there were values in the db
-                if(table == null)
+                if(table.cell11 == null)
                 {
                     table = new Tables();
                     table.cell11 = "";
@@ -400,10 +400,12 @@ namespace WebProject.Controllers
                     table.cell31 = "";
                     table.cell32 = "";
                     table.cell33 = "";
-                    dm.Tables.Add(table);
-                    vmTable.Table.Add(table);
-
+                   
                 }
+
+                dm.Tables.Add(table);
+                vmTable.Table.Add(table);
+
 
             }
             return View(vmTable);
@@ -413,19 +415,17 @@ namespace WebProject.Controllers
         [HttpPost]
         public ActionResult Play(Tables table)
         {
-            /*var vm = new TicTacToeViewModel();
-            if(String.IsNullOrWhiteSpace(vm.cell11))
+            var vm = new TicTacToeViewModel();
+  
+            using (DataModel dm = new DataModel())
             {
-                using (DataModel dm = new DataModel())
-                {
-                    foreach (var i in dm.Tables)
-                    {
-                        vm.Table.Add(i);
-                    }
-                }
+                dm.Tables.Add(table);
+                vm.Table.Add(table);
+                dm.SaveChanges();
             }
-            return View(m);*/
-            return Json("Success");
+            
+            return View(vm);
+            
         }
 
 

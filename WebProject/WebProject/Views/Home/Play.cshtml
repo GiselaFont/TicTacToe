@@ -34,7 +34,7 @@
                 </table>
 
             }
-            <input type="submit" />
+            <button id="Save">Save</button>
         </div>
     </form>
 </div>
@@ -61,7 +61,7 @@
                     }
                 }
 
-                var cellValues = [{
+                var cellValues = {
                     "cell11" : $("#cell11").html(), 
                     "cell12" : $("#cell12").html(), 
                     "cell13" : $("#cell13").html(),
@@ -70,20 +70,11 @@
                     "cell23" : $("#cell23").html(),
                     "cell31" : $("#cell31").html(), 
                     "cell32" : $("#cell32").html(), 
-                    "cell33" : $("#cell33").html()}];
+                    "cell33": $("#cell33").html()
+                };
 
-                $.ajax({
-                    url: "@Url.Action("Play")",
-                    type: "POST",
-                    data: JSON.stringify(cellValues),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    error: function (response) {
-                        alert(response.responseText);
-                    },
-                    success: function (response) {
-                        alert(response);
-                    }
+                $.post('/Home/Play', { table: cellValues }, function (response) {
+                    alert(response);
                 });
 
             });
