@@ -19,6 +19,7 @@ namespace WebProject.Data
                //new DropCreateDatabaseIfModelChanges<DataModel>()
                new DropCreateDatabaseAlways<DataModel>()
             );
+
         }
 
         
@@ -28,7 +29,15 @@ namespace WebProject.Data
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
         public virtual DbSet<Cars> Cars { get; set; }
         public virtual DbSet<Tables> Tables { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Tables>().ToTable("Tables");
+        }
+
+
     }
+
 
     //public class MyEntity
     //{

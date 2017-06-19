@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -385,27 +386,30 @@ namespace WebProject.Controllers
 
             using (DataModel dm = new DataModel())
             {
-                Tables table = (Tables)dm.Tables.FirstOrDefault();
-
-                //Check if there were values in the db
-                if(table == null)
+                if(ModelState.IsValid)
                 {
-                    table = new Tables();
-                    table.cell11 = "";
-                    table.cell12 = "";
-                    table.cell13 = "";
-                    table.cell21 = "";
-                    table.cell22 = "";
-                    table.cell23 = "";
-                    table.cell31 = "";
-                    table.cell32 = "";
-                    table.cell33 = "";
-                   
+                    Tables table = (Tables)dm.Tables.FirstOrDefault();
+
+                    //Check if there were values in the db
+                    if (table == null)
+                    {
+                        table = new Tables();
+                        table.cell11 = "";
+                        table.cell12 = "";
+                        table.cell13 = "";
+                        table.cell21 = "";
+                        table.cell22 = "";
+                        table.cell23 = "";
+                        table.cell31 = "";
+                        table.cell32 = "";
+                        table.cell33 = "";
+                        dm.Tables.Add(table);
+                        dm.SaveChanges();
+
+                    }
+
+                    vmTable.Table.Add(table);
                 }
-
-                dm.Tables.Add(table);
-                vmTable.Table.Add(table);
-
 
             }
             return View(vmTable);
@@ -416,12 +420,37 @@ namespace WebProject.Controllers
         public ActionResult Play(Tables table)
         {
             var vm = new TicTacToeViewModel();
+            //table = new Tables();
   
             using (DataModel dm = new DataModel())
             {
-                dm.Tables.Add(table);
-                vm.Table.Add(table);
-                dm.SaveChanges();
+                if(ModelState.IsValid)
+                {
+                    var updatedTable = dm.Tables.SingleOrDefault(x => x.Id == 1);
+
+                    updatedTable.cell11 = table.cell11;
+                    updatedTable.cell12 = table.cell12;
+                    updatedTable.cell13 = table.cell13;
+                    updatedTable.cell21 = table.cell21;
+                    updatedTable.cell22 = table.cell22;
+                    updatedTable.cell23 = table.cell23;
+                    updatedTable.cell31 = table.cell31;
+                    updatedTable.cell32 = table.cell32;
+                    updatedTable.cell33 = table.cell33;
+
+                    dm.Entry(updatedTable).State = EntityState.Modified;
+                    vm.Table.Add(table);
+                    try
+                    {
+                        dm.SaveChanges();
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.Write(ex);
+                    }
+                    
+                }
+                
             }
             
             return View(vm);
