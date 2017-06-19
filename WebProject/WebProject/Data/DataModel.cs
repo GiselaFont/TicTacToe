@@ -16,8 +16,8 @@ namespace WebProject.Data
             : base("name=DataModel")
         {
             Database.SetInitializer<DataModel>(
-               new DropCreateDatabaseIfModelChanges<DataModel>()
-               //new DropCreateDatabaseAlways<DataModel>()
+               //new DropCreateDatabaseIfModelChanges<DataModel>()
+               new DropCreateDatabaseAlways<DataModel>()
             );
         }
 

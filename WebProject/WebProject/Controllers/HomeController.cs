@@ -388,7 +388,7 @@ namespace WebProject.Controllers
                 Tables table = (Tables)dm.Tables.FirstOrDefault();
 
                 //Check if there were values in the db
-                if(table.cell11 == null)
+                if(table == null)
                 {
                     table = new Tables();
                     table.cell11 = "";
