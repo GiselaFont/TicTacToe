@@ -4,45 +4,51 @@
 @using WebProject.Models
 @model TicTacToeViewModel
 
-<div class="about">
+<div id="play">
     <h4>Play with us!</h4>
-  
-    <button id="toggle1">New Game</button>
-    <br />
-    <br />
-    <div id="hidden1" style="display:none;">
+        
+            <div id="savedGames">
+                <table border="1" height="100" width="100">
+                    @foreach (var tables in Model.Table)
+                    {
+                        <tr>
+                            <td id="@tables.Id">Game @tables.Id</td>
+                        </tr>
+                    }
+                </table>
+            </div>
         @foreach (var tables in Model.Table)
         {
-            <table border="1" height="100" width="100">
-                <tr>
-                    <td id="cell11">@tables.cell11</td>
-                    <td id="cell12">@tables.cell12</td>
-                    <td id="cell13">@tables.cell13</td>
-                </tr>
-                <tr>
-                    <td id="cell21">@tables.cell21</td>
-                    <td id="cell22">@tables.cell22</td>
-                    <td id="cell23">@tables.cell23</td>
-                </tr>
-                <tr>
-                    <td id="cell31">@tables.cell31</td>
-                    <td id="cell32">@tables.cell32</td>
-                    <td id="cell33">@tables.cell33</td>
-                </tr>
-            </table>
-        }
-    </div> 
-    <button id="save">Save</button>
-    
-    <div id="savedGames">
-        @foreach (var tables in Model.Table)
-        {
-            if (tables.Id != 0)
+
+            if (tables.Id == 1)
             {
-                <button id="@tables.Id">Game @tables.Id</button>
+                <div id="hidden">
+                    <table border="1" height="100" width="100">
+                        <tr>
+                            <td id="cell11">@tables.cell11</td>
+                            <td id="cell12">@tables.cell12</td>
+                            <td id="cell13">@tables.cell13</td>
+                        </tr>
+                        <tr>
+                            <td id="cell21">@tables.cell21</td>
+                            <td id="cell22">@tables.cell22</td>
+                            <td id="cell23">@tables.cell23</td>
+                        </tr>
+                        <tr>
+                            <td id="cell31">@tables.cell31</td>
+                            <td id="cell32">@tables.cell32</td>
+                            <td id="cell33">@tables.cell33</td>
+                        </tr>
+                    </table>
+                </div>
             }
+
         }
-    </div>
+    <br />
+    <br />
+    <button id="newGame">New Game</button>
+            
+        
 </div>
 
 @section Scripts {
@@ -53,8 +59,21 @@
             var count = 0;
             var x = false;
 
-            $('#toggle1').click(function () {
-                $('#hidden1').show();
+            //create a new table
+            $('#newGame').click(function () {
+                StartNewGame();
+                alert("New Game!");
+                $("#hidden").show();
+                location.reload();
+            });
+
+            $("#game").click(function () {
+                var id = $(this).html().split(" ");
+                id = id[id.length - 1]
+                //var cellValues = { "Id": "" };
+                $.post('/Home/Play', { table: cellValues }, function (response) {
+                });
+
             });
 
             $('td').click(function () {
@@ -70,6 +89,7 @@
                     }
 
                     var cellValues = {
+                        "Id": "@Model.Table.FirstOrDefault().Id",
                         "cell11": $("#cell11").html(),
                         "cell12": $("#cell12").html(),
                         "cell13": $("#cell13").html(),
@@ -80,17 +100,21 @@
                         "cell32": $("#cell32").html(),
                         "cell33": $("#cell33").html()
                     };
+                    
 
                     //send values to controller to store in database
                     $.post('/Home/Play', { table: cellValues }, function (response) {
                     });
 
+                    //Check if it is the end of the game (win, lost, or tie)
                     var end = CheckEndGame($(this).get(0).id.split(""), $(this).html());
 
                     if(end == true)
                     {
                         StartNewGame();
                     }
+
+                    location.reload();
                 }
             });
 
@@ -130,9 +154,8 @@
             }
 
             function StartNewGame() {
-                $("#save").click(function () {
-                    $('#hidden1').show();
-
+                var cellValues = null;
+                $.post('/Home/Play', { table: cellValues }, function (response) {
                 });
             }
 

@@ -267,4 +267,18 @@ form input, textarea, select{
     width:75%;
 }
 
+#hidden{
+    display:inline-block;
+}
+
+#savedGames{
+    float: left;
+    display:inline-block;
+}
+#newdGame{
+    float:none;
+}
+#play{
+    height: 300px;
+}
 

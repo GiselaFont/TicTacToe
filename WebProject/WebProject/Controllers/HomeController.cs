@@ -11,6 +11,7 @@ namespace WebProject.Controllers
 {
     public class HomeController : Controller
     {
+        private DataModel dm = new DataModel();
         public ActionResult Index()
         {
             ViewBag.Title = "Home";
@@ -379,54 +380,53 @@ namespace WebProject.Controllers
             return View();
         }
 
+        private TicTacToeViewModel vm = new TicTacToeViewModel();
         [HttpGet]
         public ActionResult Play()
         {
-            var vmTable = new TicTacToeViewModel();
-
-            using (DataModel dm = new DataModel())
+            
+                        
+            if(ModelState.IsValid)
             {
-                if(ModelState.IsValid)
+                Tables table = (Tables)dm.Tables.FirstOrDefault();
+
+                //Check if there were values in the db
+                if (table == null)
                 {
-                    Tables table = (Tables)dm.Tables.FirstOrDefault();
+                    table = new Tables();
+                    NewGame(table);
+                    dm.Tables.Add(table);
+                    dm.SaveChanges();
 
-                    //Check if there were values in the db
-                    if (table == null)
-                    {
-                        table = new Tables();
-                        table.cell11 = "";
-                        table.cell12 = "";
-                        table.cell13 = "";
-                        table.cell21 = "";
-                        table.cell22 = "";
-                        table.cell23 = "";
-                        table.cell31 = "";
-                        table.cell32 = "";
-                        table.cell33 = "";
-                        dm.Tables.Add(table);
-                        dm.SaveChanges();
-
-                    }
-
-                    vmTable.Table.Add(table);
                 }
 
+                foreach (var i in dm.Tables)
+                {
+                    vm.Table.Add(i);
+                }
             }
-            return View(vmTable);
+
+            
+            return View(vm);
         }
 
 
         [HttpPost]
         public ActionResult Play(Tables table)
         {
-            var vm = new TicTacToeViewModel();
-            //table = new Tables();
   
-            using (DataModel dm = new DataModel())
+            if(ModelState.IsValid)
             {
-                if(ModelState.IsValid)
+                if(table == null)
                 {
-                    var updatedTable = dm.Tables.SingleOrDefault(x => x.Id == 1);
+                    table = new Tables();
+                    NewGame(table);
+                    dm.Entry(table).State = EntityState.Added;
+                    dm.SaveChanges();
+                }
+                else
+                {
+                    var updatedTable = dm.Tables.SingleOrDefault(x => x.Id == table.Id);
 
                     updatedTable.cell11 = table.cell11;
                     updatedTable.cell12 = table.cell12;
@@ -439,21 +439,39 @@ namespace WebProject.Controllers
                     updatedTable.cell33 = table.cell33;
 
                     dm.Entry(updatedTable).State = EntityState.Modified;
-                    vm.Table.Add(table);
-                    try
-                    {
-                        dm.SaveChanges();
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.Write(ex);
-                    }
-                    
+                    dm.SaveChanges();
                 }
                 
             }
-            
+
+            foreach(var i in dm.Tables)
+            {
+                vm.Table.Add(i);
+            }
+           
+
             return View(vm);
+            
+        }
+
+        /*[HttpPost]
+        public ActionResult Play(int id)
+        {
+            vm.Table.All(x => x.Id == id);
+            return View(vm);
+        }
+        */
+        public void NewGame(Tables table)
+        {
+            table.cell11 = "";
+            table.cell12 = "";
+            table.cell13 = "";
+            table.cell21 = "";
+            table.cell22 = "";
+            table.cell23 = "";
+            table.cell31 = "";
+            table.cell32 = "";
+            table.cell33 = "";
             
         }
 
