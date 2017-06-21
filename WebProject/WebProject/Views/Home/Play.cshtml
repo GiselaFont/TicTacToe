@@ -56,7 +56,15 @@
 
                 if (tables.winner != null)
                 {
-                    <div id="result">@tables.winner won!</div>
+                    if (tables.winner != "tie")
+                    {
+                        <div id="result">@tables.winner won!</div>
+                    }
+                    else
+                    {
+                        <div id="result">It's a tie!</div>
+                    }
+
                 }
             }
 
@@ -128,13 +136,15 @@
                     //Check if it is the end of the game (win, lost, or tie)
                     var end = CheckEndGame($(this).get(0).id.split(""), $(this).html());
                     var cellValues;
-                    var winner = "";
+                    var winner = "tie";
                     if(end == true)
                     {
+                        
                         if(count != 9)
                         {
                             winner = x;
                         }
+                        
                         cellValues = {
                             "Id": id,
                             "cell11": $("#cell11").html(),
@@ -152,7 +162,6 @@
                         };
                     }
                     else{
-
                         cellValues = {
                             "Id": id,
                             "cell11": $("#cell11").html(),
@@ -187,28 +196,23 @@
                 var j = num[num.length - 1];
 
                 if ($("#cell" + i + "" + 1).html() == $("#cell" + i + "" + 2).html() && $("#cell" + i + "" + 2).html() == $("#cell" + i + "" + 3).html()) {
-                    alert(text + " won!");
                     return true;
                 }
                 else if ($("#cell" + 1 + "" + j).html() == $("#cell" + 2 + "" + j).html() && $("#cell" + 2 + "" + j).html() == $("#cell" + 3 + "" + j).html()){
-                    alert(text + " won!");
                     return true;
                 }
                 else if ((i == 2 && j == 2) || ((i == 1 && j == 3) || (i == 3 && j == 1))) {
                     if ($("#cell" + 1 + "" + 3).html() == $("#cell" + 2 + "" + 2).html() && $("#cell" + 2 + "" + 2).html() == $("#cell" + 3 + "" + 1).html()) {
-                        alert(text + " won!");
                         return true;
                     }
                 }
                 else if (i == j) {
                     if ($("#cell" + 1 + "" + 1).html() == $("#cell" + 2 + "" + 2).html() && $("#cell" + 2 + "" + 2).html() == $("#cell" + 3 + "" + 3).html()) {
-                        alert(text + " won!");
                         return true;
                     }
                 }
                 if (count == 9)
                 {
-                    alert("It's a tie!");
                     return true;
                 }
                 return false;
