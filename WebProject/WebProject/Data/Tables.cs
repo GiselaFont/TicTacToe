@@ -28,6 +28,12 @@ namespace WebProject.Data
 
         public string cell33 { get; set; }
 
+        public bool active { get; set; } = false;
+
+        public string move { get; set; } = "O";
+
+        public string winner { get; set; }
+
         public Tables()
         {
 

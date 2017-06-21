@@ -9,18 +9,30 @@
         
             <div id="savedGames">
                 <table border="1" height="100" width="100">
+                   
                     @foreach (var tables in Model.Table)
                     {
-                        <tr>
-                            <td id="@tables.Id">Game @tables.Id</td>
-                        </tr>
+                        if (tables.active)
+                        {
+                            <tr>
+                                <td class="activeNumber" style="background-color:red;">Game @tables.Id</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="gameNumber">Game @tables.Id</td>
+                            </tr>
+                        }
+
                     }
+                    
                 </table>
             </div>
         @foreach (var tables in Model.Table)
         {
 
-            if (tables.Id == 1)
+            if (tables.active)
             {
                 <div id="hidden">
                     <table border="1" height="100" width="100">
@@ -56,40 +68,57 @@
 
         $(document).ready(function () {
 
-            var count = 0;
             var x = false;
+            var count = 0;
 
             //create a new table
             $('#newGame').click(function () {
                 StartNewGame();
-                alert("New Game!");
                 $("#hidden").show();
-                location.reload();
             });
 
-            $("#game").click(function () {
-                var id = $(this).html().split(" ");
-                id = id[id.length - 1]
-                //var cellValues = { "Id": "" };
+            $(".gameNumber").click(function () {
+
+                //highlight active game only
+                $(".gameNumber").css('background', 'white');
+                $(".activeNumber").css('background', 'white');
+                $(this).css('background', 'red');
+
+                //id of active game
+                var text = $(this).html().split(" ");
+                var id = text[text.length - 1];
+
+                var cellValues = {
+                    "Id": id
+                };
+
                 $.post('/Home/Play', { table: cellValues }, function (response) {
+                    location.reload();
                 });
 
             });
 
+
             $('td').click(function () {
-               
+
+                //get ID
+                var text = $(".activeNumber").html().split(" ");
+                var id = text[text.length - 1];
+
                 if (!$(this).html()) {
                     if (x == false) {
                         $(this).html("X");
-                        x = true;
+                        x = "X";
                     }
                     else {
                         $(this).html("O");
-                        x = false;
+                        x = "O";
                     }
 
+                 
+
                     var cellValues = {
-                        "Id": "@Model.Table.FirstOrDefault().Id",
+                        "Id": id,
                         "cell11": $("#cell11").html(),
                         "cell12": $("#cell12").html(),
                         "cell13": $("#cell13").html(),
@@ -98,9 +127,11 @@
                         "cell23": $("#cell23").html(),
                         "cell31": $("#cell31").html(),
                         "cell32": $("#cell32").html(),
-                        "cell33": $("#cell33").html()
+                        "cell33": $("#cell33").html(),
+                        "active": true,
+                        "move": x
                     };
-                    
+
 
                     //send values to controller to store in database
                     $.post('/Home/Play', { table: cellValues }, function (response) {
@@ -113,8 +144,6 @@
                     {
                         StartNewGame();
                     }
-
-                    location.reload();
                 }
             });
 
@@ -123,7 +152,7 @@
                 count++;
                 var i = num[num.length - 2];
                 var j = num[num.length - 1];
-                
+
                 if ($("#cell" + i + "" + 1).html() == $("#cell" + i + "" + 2).html() && $("#cell" + i + "" + 2).html() == $("#cell" + i + "" + 3).html()) {
                     alert(text + " won!");
                     return true;
@@ -155,13 +184,15 @@
 
             function StartNewGame() {
                 var cellValues = null;
+
                 $.post('/Home/Play', { table: cellValues }, function (response) {
+                    location.reload();
                 });
             }
 
         });
 
-        
-        
+
+
     </script>
 }

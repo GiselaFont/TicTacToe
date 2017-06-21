@@ -12,6 +12,7 @@ namespace WebProject.Controllers
     public class HomeController : Controller
     {
         private DataModel dm = new DataModel();
+        private TicTacToeViewModel vm = new TicTacToeViewModel();
         public ActionResult Index()
         {
             ViewBag.Title = "Home";
@@ -380,33 +381,14 @@ namespace WebProject.Controllers
             return View();
         }
 
-        private TicTacToeViewModel vm = new TicTacToeViewModel();
         [HttpGet]
         public ActionResult Play()
-        {
-            
-                        
-            if(ModelState.IsValid)
+        {         
+            foreach (var i in dm.Tables)
             {
-                Tables table = (Tables)dm.Tables.FirstOrDefault();
-
-                //Check if there were values in the db
-                if (table == null)
-                {
-                    table = new Tables();
-                    NewGame(table);
-                    dm.Tables.Add(table);
-                    dm.SaveChanges();
-
-                }
-
-                foreach (var i in dm.Tables)
-                {
-                    vm.Table.Add(i);
-                }
+                vm.Table.Add(i);
             }
-
-            
+  
             return View(vm);
         }
 
@@ -414,7 +396,14 @@ namespace WebProject.Controllers
         [HttpPost]
         public ActionResult Play(Tables table)
         {
-  
+            //check if we need to update table
+            bool update = false;
+            if(table != null && table.active == true)
+            {
+                update = true;
+            }
+            ResetActiveTables(); //change the value of all the tables to false
+
             if(ModelState.IsValid)
             {
                 if(table == null)
@@ -427,16 +416,22 @@ namespace WebProject.Controllers
                 else
                 {
                     var updatedTable = dm.Tables.SingleOrDefault(x => x.Id == table.Id);
-
-                    updatedTable.cell11 = table.cell11;
-                    updatedTable.cell12 = table.cell12;
-                    updatedTable.cell13 = table.cell13;
-                    updatedTable.cell21 = table.cell21;
-                    updatedTable.cell22 = table.cell22;
-                    updatedTable.cell23 = table.cell23;
-                    updatedTable.cell31 = table.cell31;
-                    updatedTable.cell32 = table.cell32;
-                    updatedTable.cell33 = table.cell33;
+                    //check if cells already has values, 
+                    // then we just need to change active to true
+                    if(update)
+                    {
+                        updatedTable.cell11 = table.cell11;
+                        updatedTable.cell12 = table.cell12;
+                        updatedTable.cell13 = table.cell13;
+                        updatedTable.cell21 = table.cell21;
+                        updatedTable.cell22 = table.cell22;
+                        updatedTable.cell23 = table.cell23;
+                        updatedTable.cell31 = table.cell31;
+                        updatedTable.cell32 = table.cell32;
+                        updatedTable.cell33 = table.cell33;
+                        updatedTable.move = table.move;
+                    }
+                    updatedTable.active = true;
 
                     dm.Entry(updatedTable).State = EntityState.Modified;
                     dm.SaveChanges();
@@ -444,23 +439,11 @@ namespace WebProject.Controllers
                 
             }
 
-            foreach(var i in dm.Tables)
-            {
-                vm.Table.Add(i);
-            }
-           
-
             return View(vm);
-            
+
         }
 
-        /*[HttpPost]
-        public ActionResult Play(int id)
-        {
-            vm.Table.All(x => x.Id == id);
-            return View(vm);
-        }
-        */
+        
         public void NewGame(Tables table)
         {
             table.cell11 = "";
@@ -472,7 +455,16 @@ namespace WebProject.Controllers
             table.cell31 = "";
             table.cell32 = "";
             table.cell33 = "";
+            table.active = true;
             
+        }
+
+        public void ResetActiveTables()
+        {
+            foreach(var i in dm.Tables)
+            {
+                i.active = false;
+            }
         }
 
 
