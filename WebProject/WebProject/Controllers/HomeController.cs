@@ -430,6 +430,7 @@ namespace WebProject.Controllers
                         updatedTable.cell32 = table.cell32;
                         updatedTable.cell33 = table.cell33;
                         updatedTable.move = table.move;
+                        updatedTable.winner = table.winner;
                     }
                     updatedTable.active = true;
 

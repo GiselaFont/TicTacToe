@@ -115,7 +115,7 @@
 
             $('td').click(function () {
 
-                if (!$(this).html()) {
+                if (!$(this).html() && !$("#result").html()) {
                     if (x == "O") {
                         $(this).html("X");
                         x = "X";
@@ -128,8 +128,13 @@
                     //Check if it is the end of the game (win, lost, or tie)
                     var end = CheckEndGame($(this).get(0).id.split(""), $(this).html());
                     var cellValues;
+                    var winner = "";
                     if(end == true)
                     {
+                        if(count != 9)
+                        {
+                            winner = x;
+                        }
                         cellValues = {
                             "Id": id,
                             "cell11": $("#cell11").html(),
@@ -143,7 +148,7 @@
                             "cell33": $("#cell33").html(),
                             "active": true,
                             "move": x,
-                            "winner": x
+                            "winner": winner
                         };
                     }
                     else{
