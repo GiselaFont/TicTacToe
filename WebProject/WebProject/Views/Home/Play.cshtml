@@ -53,6 +53,11 @@
                         </tr>
                     </table>
                 </div>
+
+                if (tables.winner != null)
+                {
+                    <div id="result">@tables.winner won!</div>
+                }
             }
 
         }
@@ -68,7 +73,16 @@
 
         $(document).ready(function () {
 
-            var x = false;
+            //get ID
+            if($(".activeNumber").html())
+            {
+                var text = $(".activeNumber").html().split(" ");
+                var id = text[text.length - 1];
+                
+                var model = @Html.Raw(Json.Encode(Model.Table));
+                var x = model[id-1].move;
+            }
+          
             var count = 0;
 
             //create a new table
@@ -101,12 +115,8 @@
 
             $('td').click(function () {
 
-                //get ID
-                var text = $(".activeNumber").html().split(" ");
-                var id = text[text.length - 1];
-
                 if (!$(this).html()) {
-                    if (x == false) {
+                    if (x == "O") {
                         $(this).html("X");
                         x = "X";
                     }
@@ -115,35 +125,53 @@
                         x = "O";
                     }
 
-                 
+                    //Check if it is the end of the game (win, lost, or tie)
+                    var end = CheckEndGame($(this).get(0).id.split(""), $(this).html());
+                    var cellValues;
+                    if(end == true)
+                    {
+                        cellValues = {
+                            "Id": id,
+                            "cell11": $("#cell11").html(),
+                            "cell12": $("#cell12").html(),
+                            "cell13": $("#cell13").html(),
+                            "cell21": $("#cell21").html(),
+                            "cell22": $("#cell22").html(),
+                            "cell23": $("#cell23").html(),
+                            "cell31": $("#cell31").html(),
+                            "cell32": $("#cell32").html(),
+                            "cell33": $("#cell33").html(),
+                            "active": true,
+                            "move": x,
+                            "winner": x
+                        };
+                    }
+                    else{
 
-                    var cellValues = {
-                        "Id": id,
-                        "cell11": $("#cell11").html(),
-                        "cell12": $("#cell12").html(),
-                        "cell13": $("#cell13").html(),
-                        "cell21": $("#cell21").html(),
-                        "cell22": $("#cell22").html(),
-                        "cell23": $("#cell23").html(),
-                        "cell31": $("#cell31").html(),
-                        "cell32": $("#cell32").html(),
-                        "cell33": $("#cell33").html(),
-                        "active": true,
-                        "move": x
-                    };
-
+                        cellValues = {
+                            "Id": id,
+                            "cell11": $("#cell11").html(),
+                            "cell12": $("#cell12").html(),
+                            "cell13": $("#cell13").html(),
+                            "cell21": $("#cell21").html(),
+                            "cell22": $("#cell22").html(),
+                            "cell23": $("#cell23").html(),
+                            "cell31": $("#cell31").html(),
+                            "cell32": $("#cell32").html(),
+                            "cell33": $("#cell33").html(),
+                            "active": true,
+                            "move": x
+                        };
+                    }
 
                     //send values to controller to store in database
                     $.post('/Home/Play', { table: cellValues }, function (response) {
+                        if(end == true)
+                        {
+                            location.reload();
+                        }
                     });
 
-                    //Check if it is the end of the game (win, lost, or tie)
-                    var end = CheckEndGame($(this).get(0).id.split(""), $(this).html());
-
-                    if(end == true)
-                    {
-                        StartNewGame();
-                    }
                 }
             });
 
